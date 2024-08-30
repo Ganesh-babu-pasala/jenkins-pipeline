@@ -16,7 +16,7 @@ pipeline {
                     emailext(
                         subject: "SUCCESS: Unit and Integration Tests",
                         body: "The Unit and Integration Tests stage has succeeded.",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        to: 'ganeshbabu.pasala@gmail.com',
                         attachLog: true
                     )
                 }
@@ -24,7 +24,7 @@ pipeline {
                     emailext(
                         subject: "FAILURE: Unit and Integration Tests",
                         body: "The Unit and Integration Tests stage has failed.",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        to: 'ganeshbabu.pasala@gmail.com',
                         attachLog: true
                     )
                 }
@@ -44,34 +44,10 @@ pipeline {
                     emailext(
                         subject: "SUCCESS: Security Scan",
                         body: "The Security Scan stage has succeeded.",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        to: 'ganeshbabu.pasala@gmail.com',
                         attachLog: true
                     )
                 }
                 failure {
                     emailext(
-                        subject: "FAILURE: Security Scan",
-                        body: "The Security Scan stage has failed.",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-                        attachLog: true
-                    )
-                }
-            }
-        }
-        stage('Deploy to Staging') {
-            steps {
-                echo 'Deploying the application to the staging server...'
-            }
-        }
-        stage('Integration Tests on Staging') {
-            steps {
-                echo 'Running integration tests on the staging environment with Selenium...'
-            }
-        }
-        stage('Deploy to Production') {
-            steps {
-                echo 'Deploying the application to the production server...'
-            }
-        }
-    }
-}
+                        subject: "FAILURE: Security
