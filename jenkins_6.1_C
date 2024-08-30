@@ -5,43 +5,72 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project using Maven...'
-                // Tool: Maven (mvn clean package)
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit tests with JUnit and integration tests with TestNG...'
-                // Tools: JUnit, TestNG
+            }
+            post {
+                success {
+                    emailext(
+                        subject: "SUCCESS: Unit and Integration Tests",
+                        body: "The Unit and Integration Tests stage has succeeded.",
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "FAILURE: Unit and Integration Tests",
+                        body: "The Unit and Integration Tests stage has failed.",
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing code quality with SonarQube...'
-                // Tool: SonarQube
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan using OWASP Dependency Check...'
-                // Tool: OWASP Dependency Check
+            }
+            post {
+                success {
+                    emailext(
+                        subject: "SUCCESS: Security Scan",
+                        body: "The Security Scan stage has succeeded.",
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "FAILURE: Security Scan",
+                        body: "The Security Scan stage has failed.",
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying the application to the staging server...'
-                // Tool: AWS CLI
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on the staging environment with Selenium...'
-                // Tool: Selenium
             }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying the application to the production server...'
-                // Tool: AWS CLI
             }
         }
     }
